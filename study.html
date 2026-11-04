@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Jeopardy Clues</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- PWA / iOS "Add to Home Screen" support (own manifest so the home-screen
+     icon opens this page rather than the full game) -->
+<link rel="manifest" href="manifest-study.json">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Clues">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0400B0">
+</head>
+<body>
+
+  <div id="clueArea">
+    <div id="category">CATEGORY</div>
+    <div id="value">$000</div>
+    <div id="clueText">Clue text goes here</div>
+    <div id="solution" hidden>Solution goes here</div>
+  </div>
+
+  <div id="controlsArea">
+    <div id="buttonArea" style="margin-top:0">
+      <button id="actionBtn" class="wideBtn">REVEAL SOLUTION</button>
+    </div>
+  </div>
+
+  <!-- Same clue data files as the full game; study.js loads every part
+       listed in clues_manifest.js. -->
+  <script src="clues_manifest.js"></script>
+  <script src="study.js"></script>
+
+  <script>
+    // Same service worker as the full game: caches everything for offline
+    // use. Fails silently over plain HTTP, which is fine.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("sw.js").catch(function (err) {
+          console.warn("Service worker registration skipped:", err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
